@@ -7,7 +7,7 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       background: #f2f6fc;
       color: #333;
     }
@@ -21,13 +21,10 @@
 
     header h1 {
       margin: 0;
-      font-size: 2rem;
     }
 
     header p {
-      margin: 5px 0 0;
       font-style: italic;
-      font-size: 1.1rem;
     }
 
     nav {
@@ -47,15 +44,10 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      transition: background 0.3s ease, color 0.3s ease;
+      transition: 0.3s;
     }
 
-    nav button:hover {
-      background-color: #60a5fa;
-      color: white;
-    }
-
-    nav button.active {
+    nav button:hover, nav button.active {
       background-color: #60a5fa;
       color: white;
     }
@@ -69,8 +61,45 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    h2 {
+    .hidden {
+      display: none;
+    }
+
+    .login-form {
+      max-width: 400px;
+      margin: 60px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .login-form h2 {
+      margin-bottom: 20px;
       color: #1e40af;
+      text-align: center;
+    }
+
+    .login-form label, select, input {
+      width: 100%;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    .login-form input[type="password"] {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .login-form button {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      width: 100%;
+      cursor: pointer;
     }
 
     .badge {
@@ -109,100 +138,66 @@
       color: #1e3a8a;
       font-weight: 500;
     }
-  </style>
 
-  <script>
-    function showPage(page) {
-      const content = document.getElementById('content');
-      const buttons = document.querySelectorAll("nav button");
-
-      // Remove active class from all buttons
-      buttons.forEach(btn => btn.classList.remove('active'));
-
-      // Add active class to the clicked button
-      const activeButton = document.querySelector(`button[data-page='${page}']`);
-      if (activeButton) {
-        activeButton.classList.add('active');
-      }
-
-      const pages = {
-        home: `
-          <span class="badge">System Active</span>
-          <h2>Welcome to Victory School Club Membership System</h2>
-          <p>
-            The Victory School Club Membership System is a digital platform designed to support the vibrant co-curricular
-            life of our school. With this system, students can easily register for clubs, view financial activity reports,
-            and generate calculations related to club finances. Our aim is to promote student engagement, ensure transparency,
-            and simplify the administration of club activities. Whether you're joining the Chess Club or reviewing the Science
-            Club's budget, everything is just a click away. Join us in pursuing knowledge with passion!
-          </p>
-        `,
-        registration: `
-          <h2>Register to Join a Club</h2>
-          <div class="club-grid">
-            ${[
-              'Debate', 'Chess', 'Science', 'Mathematics',
-              'Drama', 'Music', 'Art', 'Writing',
-              'Environmental', 'Computer Science', 'Agriculture'
-            ].map(club => `
-              <div class="club-card">
-                <a href="#">${club} Club Registration Form</a>
-              </div>
-            `).join('')}
-          </div>
-        `,
-        reports: `
-          <h2>Club Financial Reports</h2>
-          <p>Access detailed financial statements from each club below:</p>
-          <div class="club-grid">
-            ${[
-              'Debate', 'Chess', 'Science', 'Mathematics',
-              'Drama', 'Music', 'Art', 'Writing',
-              'Environmental', 'Computer Science', 'Agriculture'
-            ].map(club => `
-              <div class="club-card">
-                <a href="#">${club} Club Financial Report</a>
-              </div>
-            `).join('')}
-          </div>
-        `,
-        queries: `
-          <h2>Financial Calculations and Queries</h2>
-          <p>Generate summaries and financial breakdowns per club:</p>
-          <div class="club-grid">
-            ${[
-              'Debate', 'Chess', 'Science', 'Mathematics',
-              'Drama', 'Music', 'Art', 'Writing',
-              'Environmental', 'Computer Science', 'Agriculture'
-            ].map(club => `
-              <div class="club-card">
-                <a href="#">Generate ${club} Club Financial Summary</a>
-              </div>
-            `).join('')}
-          </div>
-        `
-      };
-
-      content.innerHTML = pages[page];
+    .logout-btn {
+      float: right;
+      margin-right: 20px;
+      margin-top: -10px;
     }
-  </script>
+  </style>
 </head>
 
-<body onload="showPage('home')">
-  <header>
-    <h1>VICTORY SCHOOL CLUB MEMBERSHIP SYSTEM</h1>
-    <p>Pursuing knowledge with passion</p>
-  </header>
+<body>
 
-  <nav>
-    <button data-page="home" onclick="showPage('home')">Home</button>
-    <button data-page="registration" onclick="showPage('registration')">Club Registration</button>
-    <button data-page="reports" onclick="showPage('reports')">Club Reports</button>
-    <button data-page="queries" onclick="showPage('queries')">Financial Queries</button>
-  </nav>
+  <!-- Login Screen -->
+  <div class="login-form" id="loginScreen">
+    <h2>Login to VSCMS</h2>
+    <label for="role">Select Role:</label>
+    <select id="role">
+      <option value="student">Student</option>
+      <option value="parent">Parent</option>
+      <option value="patron">Club Patron</option>
+      <option value="admin">Administrator</option>
+    </select>
 
-  <section id="content">
-    <!-- Dynamic content loads here -->
-  </section>
-</body>
-</html>
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="Enter password"/>
+
+    <button onclick="login()">Login</button>
+  </div>
+
+  <!-- Main Interface -->
+  <div id="mainApp" class="hidden">
+    <header>
+      <h1>VICTORY SCHOOL CLUB MEMBERSHIP SYSTEM</h1>
+      <p>Pursuing knowledge with passion</p>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </header>
+
+    <nav>
+      <button data-page="home" onclick="showPage('home')">Home</button>
+      <button data-page="registration" onclick="showPage('registration')">Club Registration</button>
+      <button data-page="reports" onclick="showPage('reports')">Club Reports</button>
+      <button data-page="queries" onclick="showPage('queries')">Financial Queries</button>
+    </nav>
+
+    <section id="content">
+      <!-- Dynamic content will load here -->
+    </section>
+  </div>
+
+  <script>
+    const rolePasswords = {
+      student: "student123",
+      parent: "parent123",
+      patron: "patron123",
+      admin: "admin123"
+    };
+
+    function login() {
+      const role = document.getElementById('role').value;
+      const pass = document.getElementById('password').value;
+
+      if (pass === rolePasswords[role]) {
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.get
